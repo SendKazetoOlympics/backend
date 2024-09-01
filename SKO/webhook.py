@@ -47,17 +47,14 @@ def handle_annotate_image():
                             annotation["value"]["y"],
                         ),
                     )
+            # Deduplicate the data
+            cursor.execute(
+                "DELETE FROM frame_rectangle_annotation a USING frame_rectangle_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y AND a.width = b.width AND a.height = b.height")
+            cursor.execute(
+                "DELETE FROM frame_classification a USING frame_classification b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class")
+            cursor.execute(
+                "DELETE FROM frame_keypoint_annotation a USING frame_keypoint_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y")
             client.commit()
-            # # Deduplicate the data
-            # cursor.execute(
-            #     "DELETE FROM frame_rectangle_annotation WHERE id IN (SELECT id FROM frame_rectangle_annotation GROUP BY frame_id, class, x, y, width, height HAVING COUNT(*) > 1)"
-            # )
-            # cursor.execute(
-            #     "DELETE FROM frame_classification WHERE id IN (SELECT id FROM frame_classification GROUP BY frame_id, class HAVING COUNT(*) > 1)"
-            # )
-            # cursor.execute(
-            #     "DELETE FROM frame_keypoint_annotation WHERE id IN (SELECT id FROM frame_keypoint_annotation GROUP BY frame_id, type, x, y HAVING COUNT(*) > 1)"
-            # )
 
         return jsonify({"message": "Success"})
 
