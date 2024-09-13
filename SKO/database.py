@@ -13,6 +13,18 @@ def connect_postgres() -> psycopg:
     )
     return database_client
 
-@database_service.route("/list_tables", methods=["GET"])
-def list_tables():
-    
+@database_service.route("/insert_video", methods=["POST"])
+def insert_video():
+    pass
+
+@database_service.route("/select_video_by_date", methods=["GET"])
+def select_video_by_date():
+    pass
+
+@database_service.route("/select_video_by_type", methods=["GET"])
+def select_video_by_type():
+    pass
+
+@database_service.route("/select_video_by_name", methods=["GET"])
+def select_video_by_name():
+    pass
