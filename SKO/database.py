@@ -15,14 +15,6 @@ def connect_postgres() -> psycopg:
     return database_client
 
 
-def connect_minio() -> Minio:
-    minio_client = Minio(
-        endpoint=current_app.config["MINIO_ENDPOINT"],
-        access_key=current_app.config["MINIO_ACCESS_KEY"],
-        secret_key=current_app.config["MINIO_SECRET_KEY"],
-    )
-    return minio_client
-
 
 def connect_label_studio() -> LabelStudio:
     label_studio_client = LabelStudio(

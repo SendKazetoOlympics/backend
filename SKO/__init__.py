@@ -8,9 +8,10 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    from . import database, webhook
+    from . import database, webhook, minio
     app.register_blueprint(database.database_service, url_prefix="/database")
     app.register_blueprint(webhook.webhook_service, url_prefix="/webhook")
+    app.register_blueprint(minio.minio_service, url_prefix="/minio")
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -25,11 +26,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
 
     CORS(app)
 
