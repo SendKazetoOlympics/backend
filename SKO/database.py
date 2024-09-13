@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
-from minio import Minio
-from label_studio_sdk.client import LabelStudio
 import psycopg
 
+database_service = Blueprint("database", __name__)
 
 def connect_postgres() -> psycopg:
     database_client = psycopg.connect(
@@ -14,23 +13,6 @@ def connect_postgres() -> psycopg:
     )
     return database_client
 
-
-
-def connect_label_studio() -> LabelStudio:
-    label_studio_client = LabelStudio(
-        base_url=current_app.config["LABEL_STUDIO_URL"],
-        api_key=current_app.config["LABEL_STUDIO_API_KEY"],
-    )
-    return label_studio_client
-
-
-database_service = Blueprint("database", __name__)
-
-
-@database_service.route("/test", methods=["GET"])
-def test():
-    db = connect_postgres()
-    minio = connect_minio()
-    label_studio = connect_label_studio()
-    return jsonify({"message": "Success"})
-
+@database_service.route("/list_tables", methods=["GET"])
+def list_tables():
+    

@@ -4,7 +4,6 @@ import uuid
 
 webhook_service = Blueprint("webhook", __name__)
 
-
 @webhook_service.route("/annotate_image", methods=["POST"])
 def handle_annotate_image():
     print("Received POST request")
@@ -49,11 +48,14 @@ def handle_annotate_image():
                     )
             # Deduplicate the data
             cursor.execute(
-                "DELETE FROM frame_rectangle_annotation a USING frame_rectangle_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y AND a.width = b.width AND a.height = b.height")
+                "DELETE FROM frame_rectangle_annotation a USING frame_rectangle_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y AND a.width = b.width AND a.height = b.height"
+            )
             cursor.execute(
-                "DELETE FROM frame_classification a USING frame_classification b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class")
+                "DELETE FROM frame_classification a USING frame_classification b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class"
+            )
             cursor.execute(
-                "DELETE FROM frame_keypoint_annotation a USING frame_keypoint_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y")
+                "DELETE FROM frame_keypoint_annotation a USING frame_keypoint_annotation b WHERE a.id < b.id AND a.frame_id = b.frame_id AND a.class = b.class AND a.x = b.x AND a.y = b.y"
+            )
             client.commit()
 
         return jsonify({"message": "Success"})
