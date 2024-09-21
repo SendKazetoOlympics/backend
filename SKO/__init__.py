@@ -27,6 +27,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    @app.route('/flask/hello')
+    def hello():
+        return 'Hello, World!'
+
     CORS(app)
 
     return app
