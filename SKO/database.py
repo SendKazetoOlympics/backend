@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app
 import psycopg
 import psycopg.rows
-import uuid
-
 
 database_service = Blueprint("database", __name__)
 
