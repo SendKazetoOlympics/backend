@@ -9,9 +9,9 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     from . import database, webhook, minio
-    app.register_blueprint(database.database_service, url_prefix="/database")
-    app.register_blueprint(webhook.webhook_service, url_prefix="/webhook")
-    app.register_blueprint(minio.minio_service, url_prefix="/minio")
+    app.register_blueprint(database.database_service, url_prefix="/flask/database")
+    app.register_blueprint(webhook.webhook_service, url_prefix="/flask/webhook")
+    app.register_blueprint(minio.minio_service, url_prefix="/flask/minio")
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
